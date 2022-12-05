@@ -1,8 +1,8 @@
 package com.issart.rig.model;
 
 public class Driver {
-    private String firstName;
-    private String lastName;
+    private final String firstName = "Frank";
+    private final String lastName = "Jones";
     private String longitude;
     private String latitude;
     private Vehicle vehicle;
@@ -25,16 +25,6 @@ public class Driver {
 
     public Vehicle getVehicle() {
         return vehicle;
-    }
-
-    public Driver withFirstName(String firstName) {
-        this.firstName = firstName;
-        return this;
-    }
-
-    public Driver withLastName(String lastName) {
-        this.lastName = lastName;
-        return this;
     }
 
     public Driver withLongitude(String longitude) {
