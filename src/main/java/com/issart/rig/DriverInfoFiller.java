@@ -43,6 +43,8 @@ public class DriverInfoFiller {
             return "{"+
                     "\"success\": false"+
                     "}";
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
     }
 

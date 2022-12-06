@@ -10,12 +10,12 @@ public class CoordinatesPage extends BasePage {
         super(driver);
     }
 
-    private final By servicePointField = By.xpath("");
-    private final By continueButton = By.xpath("");
+    private final By servicePointField = By.xpath("//input");
+    private final By continueButton = By.xpath("//button");
     // TODO Написать локаторы и сделать методы
 
     public void fillCoordinates(Driver driverModel){
-        String coordinates = driverModel.getLatitude() + "," + driverModel.getLongitude();
+        String coordinates = "Lat: " + driverModel.getLatitude() + " Lon: " + driverModel.getLongitude();
         type(servicePointField, coordinates);
     }
 

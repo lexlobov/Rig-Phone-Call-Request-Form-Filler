@@ -10,9 +10,9 @@ public class DriverInfoPage extends BasePage {
         super(driver);
     }
 
-    private final By firstNameField = By.xpath("");
-    private final By lastNameField = By.xpath("");
-    private final By continueButton = By.xpath("");
+    private final By firstNameField = By.name("firstName");
+    private final By lastNameField = By.name("lastName");
+    private final By continueButton = By.xpath("//button");
 
     // TODO Написать локаторы и сделать методы
 

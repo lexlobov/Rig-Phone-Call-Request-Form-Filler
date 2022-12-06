@@ -12,7 +12,7 @@ import java.util.List;
 
 public class LinkParser {
 
-    private String phone;
+    private final String phone;
 
     public LinkParser(String phone) {
         this.phone = phone;
@@ -48,7 +48,7 @@ public class LinkParser {
     }
 
     public String getLink() throws IOException {
-        String link = null;
+        String link;
         String html = getHtml(phone);
         if (html.equals("false")){
             System.out.println("Request wasn't successful");
@@ -57,7 +57,7 @@ public class LinkParser {
         Document doc = Jsoup.parse(html);
         List<Element> rows = doc.selectXpath("//div[@class='col-xs-12 col-md-8']");
 
-        String code = rows.stream()
+        link = rows.stream()
                 .filter(m -> m.text().contains("web-app.testing.bigrig.app.")).findFirst()
                 .map(m -> m.selectXpath("span").attr("data-clipboard-text"))
                 .orElse(null);

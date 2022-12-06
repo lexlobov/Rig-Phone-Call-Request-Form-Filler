@@ -11,7 +11,7 @@ public class StartPage extends BasePage {
     }
 
     // TODO Написать локаторы и сделать методы
-    private final By startButton = By.xpath("");
+    private final By startButton = By.xpath("//button");
 
     public CoordinatesPage goToCoordinatesPage(){
         press(startButton);

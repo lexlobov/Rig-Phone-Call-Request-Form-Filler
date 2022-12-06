@@ -10,9 +10,9 @@ public class VehicleNumberPage extends BasePage {
         super(driver);
     }
 
-    private final By mcField = By.xpath("");
-    private final By dotField = By.xpath("");
-    private final By continueButton = By.xpath("");
+    private final By mcField = By.name("mc");
+    private final By dotField = By.name("dot");
+    private final By continueButton = By.xpath("//button");
 
     public void fillNumbers(Driver driverModel){
         type(mcField, driverModel.getVehicle().getMcNumber());

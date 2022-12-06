@@ -10,7 +10,7 @@ public class SuccessPage extends BasePage {
         super(driver);
     }
 
-    private final By successHeader = By.xpath("");
+    private final By successHeader = By.xpath("//h2");
     // TODO Написать локаторы и сделать методы
 
     public boolean isSuccess (){
