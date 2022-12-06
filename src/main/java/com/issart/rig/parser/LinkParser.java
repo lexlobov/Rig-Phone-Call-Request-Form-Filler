@@ -9,6 +9,8 @@ import org.jsoup.nodes.Element;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class LinkParser {
 
@@ -48,7 +50,7 @@ public class LinkParser {
     }
 
     public String getLink() throws IOException {
-        String link;
+        String message;
         String html = getHtml(phone);
         if (html.equals("false")){
             System.out.println("Request wasn't successful");
@@ -57,11 +59,17 @@ public class LinkParser {
         Document doc = Jsoup.parse(html);
         List<Element> rows = doc.selectXpath("//div[@class='col-xs-12 col-md-8']");
 
-        link = rows.stream()
-                .filter(m -> m.text().contains("web-app.testing.bigrig.app.")).findFirst()
-                .map(m -> m.selectXpath("span").attr("data-clipboard-text"))
-                .orElse(null);
-        return link;
+        message = rows.stream()
+                .filter(m -> m.text().contains("Please click on the link to provide information for your . https://testing.bigrig.app")).findFirst()
+                .get().text();
+
+        Pattern regex = Pattern.compile(".*?(?<url>[Hh][Tt][Tt][Pp][Ss]?://\\S+).*?");
+        Matcher matcher = regex.matcher(message);
+        if (matcher.matches()) {
+            System.out.println(matcher.group("url"));
+            return matcher.group("url");
+        }
+        return "false";
     }
 
 }

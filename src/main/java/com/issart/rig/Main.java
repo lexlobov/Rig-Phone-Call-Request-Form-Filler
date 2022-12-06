@@ -36,7 +36,7 @@ public class Main {
                         writer.write(success);
                         writer.close();
                         Writer writer1 = new FileWriter("driver-data.json");
-                        writer.write(gson.toJson(driverModel));
+                        writer1.write(gson.toJson(driverModel));
                         writer1.close();
                     }
                     case "payment":{
