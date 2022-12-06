@@ -18,7 +18,7 @@ public class LinkParser {
         this.phone = phone;
     }
 
-    // TODO Изменить парсинг ссылки и сделать обработку исключений
+
 
     private String linkBuilder(String phoneNumber) {
         String baseUrl = "https://receive-sms.cc/US-Phone-Number/";

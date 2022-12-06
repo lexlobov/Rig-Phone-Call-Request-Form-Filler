@@ -10,7 +10,7 @@ public class StartPage extends BasePage {
         super(driver);
     }
 
-    // TODO Написать локаторы и сделать методы
+
     private final By startButton = By.xpath("//button");
 
     public CoordinatesPage goToCoordinatesPage(){

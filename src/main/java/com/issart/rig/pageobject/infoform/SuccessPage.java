@@ -11,7 +11,7 @@ public class SuccessPage extends BasePage {
     }
 
     private final By successHeader = By.xpath("//h2");
-    // TODO Написать локаторы и сделать методы
+
 
     public boolean isSuccess (){
         try{

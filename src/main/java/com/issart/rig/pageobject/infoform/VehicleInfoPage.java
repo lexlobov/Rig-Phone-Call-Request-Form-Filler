@@ -69,5 +69,5 @@ public class VehicleInfoPage extends BasePage {
         return new SuccessPage(driver);
     }
 
-    // TODO Написать локаторы и сделать методы
+
 }

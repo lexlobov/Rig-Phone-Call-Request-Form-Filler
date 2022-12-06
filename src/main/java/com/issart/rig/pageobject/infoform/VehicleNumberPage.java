@@ -23,5 +23,5 @@ public class VehicleNumberPage extends BasePage {
         press(continueButton);
         return new VehicleInfoPage(driver);
     }
-    // TODO Написать локаторы и сделать методы
+
 }
