@@ -1,4 +1,4 @@
-package com.issart.rig;
+package com.issart.rig.formfillers;
 
 import com.issart.rig.model.Driver;
 import com.issart.rig.pageobject.infoform.*;

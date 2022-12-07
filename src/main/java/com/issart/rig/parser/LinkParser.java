@@ -3,7 +3,6 @@ package com.issart.rig.parser;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import org.jetbrains.annotations.Nullable;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -51,8 +50,19 @@ public class LinkParser {
         }
     }
 
-    public String getLink() throws IOException {
-        String message = getMessage(getHtml(phone));
+    public String getLink(String param) throws IOException {
+        String message = null;
+
+        switch (param){
+            case "payment":{
+                message = getPaymentMessage(getHtml(phone));
+                break; }
+            case "info":{
+                message = getInfoFormMessage(getHtml(phone));
+                break;
+            }
+        }
+
         if (message == null) return "false";
 
         Pattern regex = Pattern.compile(".*?(?<url>[Hh][Tt][Tt][Pp][Ss]?://\\S+).*?");
@@ -64,7 +74,7 @@ public class LinkParser {
         return "false";
     }
 
-    private String getMessage(String html) throws IOException {
+    private String getInfoFormMessage(String html) throws IOException {
         String message;
         if (html.equals("false")){
             return null;
@@ -75,6 +85,25 @@ public class LinkParser {
 
             message = rows.stream()
                     .filter(m -> m.text().contains("Please click on the link to provide information for your . https://testing.bigrig.app")).findFirst()
+                    .get().text();
+            return message;
+
+        } catch (NoSuchElementException e){
+            System.out.println("Message with link wasn't found on the page :<");
+            return null;
+        }
+    }
+    private String getPaymentMessage(String html) throws IOException {
+        String message;
+        if (html.equals("false")){
+            return null;
+        }
+        try {
+            Document doc = Jsoup.parse(html);
+            List<Element> rows = doc.selectXpath("//div[@class='col-xs-12 col-md-8']");
+
+            message = rows.stream()
+                    .filter(m -> m.text().contains("Please click on the link to pay for the road side assistance you requested https://testing.bigrig.app/")).findFirst()
                     .get().text();
             return message;
 

@@ -1,6 +1,8 @@
 package com.issart.rig;
 
 import com.google.gson.Gson;
+import com.issart.rig.formfillers.DriverInfoFiller;
+import com.issart.rig.formfillers.PaymentFormFiller;
 import com.issart.rig.model.Driver;
 import com.issart.rig.model.PaymentDetails;
 import com.issart.rig.model.Vehicle;
@@ -26,7 +28,7 @@ public class Main {
                             .withLongitude(args[2])
                             .withLatitude(args[3])
                             .withVehicle(vehicle);
-                    DriverInfoFiller filler = new DriverInfoFiller(new LinkParser(args[1]).getLink());
+                    DriverInfoFiller filler = new DriverInfoFiller(new LinkParser(args[1]).getLink("info"));
                     success = filler.fillTheForm(driverModel);
                     Writer writer = new FileWriter("success.json");
                     if(success.equals("{"+
@@ -41,6 +43,14 @@ public class Main {
                 }
                 case "payment":{
                     PaymentDetails details = new PaymentDetails();
+                    PaymentFormFiller filler = new PaymentFormFiller(new LinkParser(args[1]).getLink("payment"));
+                    success = filler.fillTheForm(details);
+                    Writer writer = new FileWriter("success.json");
+                    if(success.equals("{"+
+                            "\"success\": true"+
+                            "}")) System.out.println("Success!");
+                    writer.write(success);
+                    writer.close();
                     break;
                 }
                 default:
