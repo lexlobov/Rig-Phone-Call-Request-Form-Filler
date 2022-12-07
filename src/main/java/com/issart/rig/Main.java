@@ -17,43 +17,43 @@ public class Main {
                 "or with <\"payment\" \"phone_number\"> for filling payment info";
         String success = null;
 
-        if (args.length<2){
-            System.out.println(argumentsErrorMessage);
-        } else {
-            try {
-                switch (args[0]){
-                    case "driver": {
-                        Gson gson = new Gson();
-                        Vehicle vehicle = new Vehicle();
-                        Driver driverModel = new Driver()
-                                .withLongitude(args[2])
-                                .withLatitude(args[3])
-                                .withVehicle(vehicle);
-
-                        DriverInfoFiller filler = new DriverInfoFiller(new LinkParser(args[1]).getLink());
-                        success = filler.fillTheForm(driverModel);
-                        Writer writer = new FileWriter("success.json");
-                        writer.write(success);
-                        writer.close();
-                        Writer writer1 = new FileWriter("driver-data.json");
-                        writer1.write(gson.toJson(driverModel));
-                        writer1.close();
-                    }
-                    case "payment":{
-                        PaymentDetails details = new PaymentDetails();
-
-                    }
-                    default:
-                        System.out.println(argumentsErrorMessage);
+        try {
+            switch (args[0]){
+                case "driver": {
+                    Gson gson = new Gson();
+                    Vehicle vehicle = new Vehicle();
+                    Driver driverModel = new Driver()
+                            .withLongitude(args[2])
+                            .withLatitude(args[3])
+                            .withVehicle(vehicle);
+                    DriverInfoFiller filler = new DriverInfoFiller(new LinkParser(args[1]).getLink());
+                    success = filler.fillTheForm(driverModel);
+                    Writer writer = new FileWriter("success.json");
+                    if(success.equals("{"+
+                            "\"success\": true"+
+                            "}")) System.out.println("Success!");
+                    writer.write(success);
+                    writer.close();
+                    Writer writer1 = new FileWriter("driver-data.json");
+                    writer1.write(gson.toJson(driverModel));
+                    writer1.close();
+                    break;
                 }
-            } catch (IndexOutOfBoundsException e){
-                System.out.println(argumentsErrorMessage);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+                case "payment":{
+                    PaymentDetails details = new PaymentDetails();
+                    break;
+                }
+                default:
+                    System.out.println(argumentsErrorMessage);
             }
+        } catch (IndexOutOfBoundsException e){
+            System.out.println(argumentsErrorMessage);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
-
     }
+
+
 }

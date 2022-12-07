@@ -67,7 +67,6 @@ public class LinkParser {
     private String getMessage(String html) throws IOException {
         String message;
         if (html.equals("false")){
-            System.out.println("Request wasn't successful");
             return null;
         }
         try {

@@ -10,8 +10,6 @@ public class CoordinatesPage extends BasePage {
     }
 
     private final By servicePointField = By.xpath("//input");
-    private final By continueButton = By.xpath("//button");
-
 
     public DriverInfoPage fillCoordinates(Driver driverModel) throws InterruptedException {
         int n = 0;

@@ -18,7 +18,9 @@ public class DriverInfoFiller {
                 .addPreference("geo.enabled", true)
                 .addPreference("geo.provider.use_corelocation", true)
                 .addPreference("geo.prompt.testing", true)
-                .addPreference("geo.prompt.testing.allow", true);
+                .addPreference("geo.prompt.testing.allow", true)
+                .setHeadless(true);
+
         driver = new FirefoxDriver(ffopt);
     }
     private String link;
@@ -35,7 +37,7 @@ public class DriverInfoFiller {
                     "}";
         }
         setUp();
-//        try {
+        try {
             driver.get(link);
             var startPage = new StartPage(driver);
             var coordinatesPage = startPage.goToCoordinatesPage();
@@ -47,7 +49,6 @@ public class DriverInfoFiller {
             var vehicleInfoPage = vehicleNumberPage.clickContinue();
             vehicleInfoPage.enterVehicleDetails(driverModel);
             var successPage = vehicleInfoPage.clickContinue();
-//            var successPage = new SuccessPage(driver);
             boolean success = successPage.isSuccess();
 
 
@@ -56,15 +57,12 @@ public class DriverInfoFiller {
                     "\"success\": %s"+
                     "}",
                     success);
-//        } catch (NoSuchElementException e){
-//            driver.quit();
-//            return "{"+
-//                    "\"success\": false"+
-//                    "}";
-//        } catch (InterruptedException e) {
-//            driver.quit();
-//            throw new RuntimeException(e);
-//        }
+        } catch (Exception e){
+            driver.quit();
+            return "{"+
+                    "\"success\": false"+
+                    "}";
+        }
     }
 
 
