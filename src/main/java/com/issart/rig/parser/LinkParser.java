@@ -3,12 +3,14 @@ package com.issart.rig.parser;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import org.jetbrains.annotations.Nullable;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -50,18 +52,8 @@ public class LinkParser {
     }
 
     public String getLink() throws IOException {
-        String message;
-        String html = getHtml(phone);
-        if (html.equals("false")){
-            System.out.println("Request wasn't successful");
-            return "false";
-        }
-        Document doc = Jsoup.parse(html);
-        List<Element> rows = doc.selectXpath("//div[@class='col-xs-12 col-md-8']");
-
-        message = rows.stream()
-                .filter(m -> m.text().contains("Please click on the link to provide information for your . https://testing.bigrig.app")).findFirst()
-                .get().text();
+        String message = getMessage(getHtml(phone));
+        if (message == null) return "false";
 
         Pattern regex = Pattern.compile(".*?(?<url>[Hh][Tt][Tt][Pp][Ss]?://\\S+).*?");
         Matcher matcher = regex.matcher(message);
@@ -70,6 +62,27 @@ public class LinkParser {
             return matcher.group("url");
         }
         return "false";
+    }
+
+    private String getMessage(String html) throws IOException {
+        String message;
+        if (html.equals("false")){
+            System.out.println("Request wasn't successful");
+            return null;
+        }
+        try {
+            Document doc = Jsoup.parse(html);
+            List<Element> rows = doc.selectXpath("//div[@class='col-xs-12 col-md-8']");
+
+            message = rows.stream()
+                    .filter(m -> m.text().contains("Please click on the link to provide information for your . https://testing.bigrig.app")).findFirst()
+                    .get().text();
+            return message;
+
+        } catch (NoSuchElementException e){
+            System.out.println("Message with link wasn't found on the page :<");
+            return null;
+        }
     }
 
 }

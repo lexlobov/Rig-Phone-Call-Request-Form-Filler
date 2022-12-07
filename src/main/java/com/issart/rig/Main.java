@@ -50,6 +50,8 @@ public class Main {
                 System.out.println(argumentsErrorMessage);
             } catch (IOException e) {
                 throw new RuntimeException(e);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
             }
         }
 

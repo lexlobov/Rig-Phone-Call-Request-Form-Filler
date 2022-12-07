@@ -5,47 +5,66 @@ import com.issart.rig.pageobject.infoform.*;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.firefox.FirefoxProfile;
 
 public class DriverInfoFiller {
 
-    WebDriver driver = new FirefoxDriver();
+
+    WebDriver driver;
+    private void setUp(){
+        FirefoxOptions ffopt = new FirefoxOptions()
+                .addPreference("dom.webnotifications.enabled", true)
+                .addPreference("geo.enabled", true)
+                .addPreference("geo.provider.use_corelocation", true)
+                .addPreference("geo.prompt.testing", true)
+                .addPreference("geo.prompt.testing.allow", true);
+        driver = new FirefoxDriver(ffopt);
+    }
     private String link;
 
     public DriverInfoFiller(String link) {
         this.link = link;
     }
 
-    public String fillTheForm(Driver driverModel){
+    public String fillTheForm(Driver driverModel) throws InterruptedException {
         if("false".equals(link)){
             System.out.println("Wasn't able to get link from sms message :<");
             return "{"+
                     "\"success\": false"+
                     "}";
         }
-        try {
+        setUp();
+//        try {
             driver.get(link);
             var startPage = new StartPage(driver);
             var coordinatesPage = startPage.goToCoordinatesPage();
             coordinatesPage.fillCoordinates(driverModel);
-            var driverInfoPage = coordinatesPage.clickContinue();
+            var driverInfoPage = coordinatesPage.fillCoordinates(driverModel);
             driverInfoPage.fillNames(driverModel);
             var vehicleNumberPage = driverInfoPage.clickContinue();
             vehicleNumberPage.fillNumbers(driverModel);
             var vehicleInfoPage = vehicleNumberPage.clickContinue();
             vehicleInfoPage.enterVehicleDetails(driverModel);
             var successPage = vehicleInfoPage.clickContinue();
+//            var successPage = new SuccessPage(driver);
+            boolean success = successPage.isSuccess();
 
-            return String.format("{"+
+
+        driver.quit();
+        return String.format("{"+
                     "\"success\": %s"+
                     "}",
-                    successPage.isSuccess());
-        } catch (NoSuchElementException e){
-            return "{"+
-                    "\"success\": false"+
-                    "}";
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+                    success);
+//        } catch (NoSuchElementException e){
+//            driver.quit();
+//            return "{"+
+//                    "\"success\": false"+
+//                    "}";
+//        } catch (InterruptedException e) {
+//            driver.quit();
+//            throw new RuntimeException(e);
+//        }
     }
 
 
