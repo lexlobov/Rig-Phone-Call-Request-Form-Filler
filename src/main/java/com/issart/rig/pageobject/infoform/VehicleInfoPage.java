@@ -3,11 +3,6 @@ package com.issart.rig.pageobject.infoform;
 import com.issart.rig.model.Driver;
 import com.issart.rig.pageobject.BasePage;
 import org.openqa.selenium.*;
-import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
-import java.time.Duration;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -20,14 +15,23 @@ public class VehicleInfoPage extends BasePage {
     private final By elementsOfSelector = By.xpath("//li");
     private final By vinNumberField = By.name("vinEightDigits");
 
-    private final By continueButton = By.xpath("//button[text()='Send information']");
+    private final By continueButton = By.tagName("button");
 
 
     public void enterVehicleDetails(Driver driverModel) throws InterruptedException {
         chooseElementFromDropdown("make", driverModel);
         chooseElementFromDropdown("year", driverModel);
         chooseElementFromDropdown("model", driverModel);
-        type(vinNumberField, driverModel.getVehicle().getVinNumber());
+        int n = 0;
+        while (n++<5){
+            try {
+                type(vinNumberField, driverModel.getVehicle().getVinNumber());
+                break;
+            } catch (WebDriverException e){
+                Thread.sleep(1000);
+            }
+
+        }
     }
 
     private void chooseElementFromDropdown(String param, Driver driverModel) throws InterruptedException {
@@ -69,15 +73,19 @@ public class VehicleInfoPage extends BasePage {
                 Thread.sleep(1000);
                 continue;
             }
-
         }
-
     }
 
-    public SuccessPage clickContinue(){
-        press(continueButton);
+    public SuccessPage clickContinue() throws InterruptedException {
+        int n = 0;
+        while (n++<5){
+            try {
+                findAll(continueButton).get(1).click();;
+                break;
+            } catch (WebDriverException e ){
+                Thread.sleep(1000);
+            }
+        }
         return new SuccessPage(driver);
     }
-
-
 }

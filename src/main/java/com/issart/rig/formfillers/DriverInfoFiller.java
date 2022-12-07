@@ -2,11 +2,10 @@ package com.issart.rig.formfillers;
 
 import com.issart.rig.model.Driver;
 import com.issart.rig.pageobject.infoform.*;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
-import org.openqa.selenium.firefox.FirefoxProfile;
 
 public class DriverInfoFiller {
 
@@ -18,9 +17,8 @@ public class DriverInfoFiller {
                 .addPreference("geo.enabled", true)
                 .addPreference("geo.provider.use_corelocation", true)
                 .addPreference("geo.prompt.testing", true)
-                .addPreference("geo.prompt.testing.allow", true)
-                .setHeadless(true);
-
+                .setHeadless(true)
+                .addPreference("geo.prompt.testing.allow", true);
         driver = new FirefoxDriver(ffopt);
     }
     private String link;
@@ -41,7 +39,6 @@ public class DriverInfoFiller {
             driver.get(link);
             var startPage = new StartPage(driver);
             var coordinatesPage = startPage.goToCoordinatesPage();
-            coordinatesPage.fillCoordinates(driverModel);
             var driverInfoPage = coordinatesPage.fillCoordinates(driverModel);
             driverInfoPage.fillNames(driverModel);
             var vehicleNumberPage = driverInfoPage.clickContinue();
@@ -51,19 +48,17 @@ public class DriverInfoFiller {
             var successPage = vehicleInfoPage.clickContinue();
             boolean success = successPage.isSuccess();
 
-
-        driver.quit();
-        return String.format("{"+
+            driver.quit();
+            return String.format("{"+
                     "\"success\": %s"+
                     "}",
                     success);
-        } catch (Exception e){
+
+        } catch (WebDriverException e){
             driver.quit();
             return "{"+
                     "\"success\": false"+
                     "}";
         }
     }
-
-
 }

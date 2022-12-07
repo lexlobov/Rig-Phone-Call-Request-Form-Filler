@@ -25,9 +25,9 @@ public class Main {
                     Gson gson = new Gson();
                     Vehicle vehicle = new Vehicle();
                     Driver driverModel = new Driver()
-                            .withLongitude(args[2])
-                            .withLatitude(args[3])
+                            .withAddress(args[2])
                             .withVehicle(vehicle);
+                    System.out.println(args[2]);
                     DriverInfoFiller filler = new DriverInfoFiller(new LinkParser(args[1]).getLink("info"));
                     success = filler.fillTheForm(driverModel);
                     Writer writer = new FileWriter("success.json");

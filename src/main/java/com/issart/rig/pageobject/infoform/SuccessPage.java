@@ -13,7 +13,8 @@ public class SuccessPage extends BasePage {
     private final By successHeader = By.xpath("//h2");
 
 
-    public boolean isSuccess (){
+    public boolean isSuccess () throws InterruptedException {
+        Thread.sleep(2000);
         try{
             return isDisplayed(successHeader);
         } catch (NoSuchElementException e) {return false;}

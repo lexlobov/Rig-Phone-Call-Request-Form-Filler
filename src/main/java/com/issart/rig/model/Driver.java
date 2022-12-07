@@ -5,6 +5,8 @@ public class Driver {
     private final String lastName = "Jones";
     private String longitude;
     private String latitude;
+
+    private String address;
     private Vehicle vehicle;
 
     public String getFirstName() {
@@ -39,6 +41,15 @@ public class Driver {
 
     public Driver withVehicle(Vehicle vehicle) {
         this.vehicle = vehicle;
+        return this;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public Driver withAddress(String address) {
+        this.address = address;
         return this;
     }
 }
