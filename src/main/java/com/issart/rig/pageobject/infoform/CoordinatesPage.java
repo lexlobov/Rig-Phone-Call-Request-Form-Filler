@@ -17,7 +17,7 @@ public class CoordinatesPage extends BasePage {
         int n = 0;
         while (n++<5){
             try {
-                findAll(locationsListItem).get(1).click();
+                findAll(locationsListItem).get(0).click();
                 break;
             } catch (WebDriverException | IndexOutOfBoundsException ex){
                 Thread.sleep(1000);

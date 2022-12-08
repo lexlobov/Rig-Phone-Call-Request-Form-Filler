@@ -18,8 +18,8 @@ public class PaymentFormFiller {
                 .addPreference("geo.enabled", true)
                 .addPreference("geo.provider.use_corelocation", true)
                 .addPreference("geo.prompt.testing", true)
+                //.setHeadless(true)
                 .addPreference("geo.prompt.testing.allow", true);
-                //.setHeadless(true);
 
         driver = new FirefoxDriver(ffopt);
     }
