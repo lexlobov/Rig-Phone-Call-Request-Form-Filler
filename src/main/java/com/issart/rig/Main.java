@@ -15,7 +15,7 @@ import java.io.Writer;
 public class Main {
 
     public static void main(String[] args) {
-        String argumentsErrorMessage = "Incorrect arguments. Start program with <\"driver\" \"phone_number\" \"longitude\" \"latitude\"> for filling info form \n " +
+        String argumentsErrorMessage = "Incorrect arguments. Start program with <\"driver\" \"phone_number\" \"address\"> for filling info form \n " +
                 "or with <\"payment\" \"phone_number\"> for filling payment info";
         String success = null;
 
