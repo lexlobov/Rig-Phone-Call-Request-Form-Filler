@@ -35,8 +35,8 @@ public class VehicleInfoPage extends BasePage {
     }
 
     private void chooseElementFromDropdown(String param, Driver driverModel) throws InterruptedException {
-        int index = 0;
-        String filteringParam = "";
+        int index;
+        String filteringParam;
         switch (param){
             case "make":{
                 index = 0;
@@ -63,15 +63,13 @@ public class VehicleInfoPage extends BasePage {
             try {
                 dropdowns.get(index).click();
                 List<WebElement> manufacturers = findAll(elementsOfSelector);
-                String finalFilteringParam = filteringParam;
                 WebElement elementInDropdown = manufacturers.stream()
-                        .filter(e -> e.getText().equals(finalFilteringParam))
+                        .filter(e -> e.getText().equals(filteringParam))
                         .findFirst().get();
                 elementInDropdown.click();
                 break;
             } catch (NoSuchElementException | WebDriverException e) {
                 Thread.sleep(1000);
-                continue;
             }
         }
     }
@@ -80,7 +78,7 @@ public class VehicleInfoPage extends BasePage {
         int n = 0;
         while (n++<5){
             try {
-                findAll(continueButton).get(1).click();;
+                findAll(continueButton).get(1).click();
                 break;
             } catch (WebDriverException e ){
                 Thread.sleep(1000);
